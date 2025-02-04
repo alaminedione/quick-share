@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>jeTePartage</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Bienvenue sur jeTePartage</h1>
+  </header>
+
+  <section id="file-list">
+    <h2>Fichiers disponibles :</h2>
+    <ul id="files"></ul>
+  </section>
+
+  <section id="upload-section">
+    <h2>Envoyer des fichiers :</h2>
+    <form id="upload-form" enctype="multipart/form-data">
+      <input type="file" name="files" multiple>
+      <button type="submit">Envoyer</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>Partagez vos fichiers facilement et en toute sécurité !</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
