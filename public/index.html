@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data:; connect-src 'self';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <title>jeTePartage - Partage de fichiers simplifié</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📁</text></svg>">
 </head>
@@ -28,13 +30,13 @@
       <section id="upload-section" class="card">
         <h2><i class="fas fa-cloud-upload-alt"></i> Importer des fichiers</h2>
         <div id="drop-area">
-          <form id="upload-form" enctype="multipart/form-data">
-            <input type="file" id="file-input" name="files" multiple hidden>
-            <label for="file-input" class="file-input-label">
-              <i class="fas fa-file-circle-plus"></i>
-              <span>Cliquez pour choisir des fichiers<br>ou glissez-les ici</span>
-            </label>
-          </form>
+            <form id="upload-form" enctype="multipart/form-data">
+              <input type="file" id="file-input" name="files" multiple hidden accept="*/*">
+              <label for="file-input" class="file-input-label">
+                <i class="fas fa-file-circle-plus"></i>
+                <span>Cliquez pour choisir des fichiers<br>ou glissez-les ici</span>
+              </label>
+            </form>
           <div id="upload-progress" class="hidden">
             <div class="progress-bar">
               <div class="progress-fill"></div>
@@ -52,9 +54,14 @@
       </section>
 
       <section id="file-list-section" class="card">
+        <div class="navigation-bar">
+          <button id="back-button" class="nav-button" title="Retour"><i class="fas fa-arrow-left"></i></button>
+          <div id="breadcrumb" class="breadcrumb"></div>
+        </div>
         <div class="section-header">
           <h2><i class="fas fa-folder-open"></i> Fichiers disponibles</h2>
           <div class="file-controls">
+            <button id="create-folder-button" class="action-button"><i class="fas fa-folder-plus"></i> Nouveau dossier</button>
             <input type="text" id="search-files" placeholder="Rechercher...">
             <select id="sort-files">
               <option value="name-asc">Nom (A-Z)</option>
@@ -81,11 +88,19 @@
     </main>
 
     <div id="notification" class="notification hidden">
-      <div class="notification-content">
-        <i class="notification-icon"></i>
-        <span class="notification-message"></span>
+        <div class="notification-content">
+          <i class="notification-icon"></i>
+          <span class="notification-message"></span>
+        </div>
+        <button class="notification-close" aria-label="Fermer la notification"><i class="fas fa-times"></i></button>
       </div>
-      <button class="notification-close"><i class="fas fa-times"></i></button>
+    
+    <div id="error-container" class="notification error hidden">
+        <div class="notification-content">
+          <i class="fas fa-exclamation-circle notification-icon"></i>
+          <span class="notification-message">Une erreur est survenue. Veuillez réessayer.</span>
+        </div>
+        <button class="notification-close" aria-label="Fermer le message d'erreur"><i class="fas fa-times"></i></button>
     </div>
 
     <footer>
@@ -109,6 +124,33 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <div id="create-folder-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Créer un nouveau dossier</h3>
+        <button class="close-modal"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="folder-name">Nom du dossier :</label>
+          <input type="text" id="folder-name" class="form-control" placeholder="Nouveau dossier">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="cancel-button secondary-button"><i class="fas fa-times"></i> Annuler</button>
+        <button id="create-folder-confirm" class="primary-button"><i class="fas fa-check"></i> Créer</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
+  <noscript>
+    <div class="notification error" style="display:block;">
+      <div class="notification-content">
+        <i class="fas fa-exclamation-circle notification-icon"></i>
+        <span class="notification-message">JavaScript est désactivé. Cette application nécessite JavaScript pour fonctionner correctement.</span>
+      </div>
+    </div>
+  </noscript>
 </body>
 </html>
