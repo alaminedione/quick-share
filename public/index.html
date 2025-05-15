@@ -3,32 +3,112 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>jeTePartage</title>
+  <title>jeTePartage - Partage de fichiers simplifié</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📁</text></svg>">
 </head>
 <body>
-  <header>
-    <h1>Bienvenue sur jeTePartage</h1>
-  </header>
+  <div class="app-container">
+    <header>
+      <div class="logo">
+        <i class="fas fa-share-nodes"></i>
+        <h1>jeTePartage</h1>
+      </div>
+      <div class="theme-toggle">
+        <input type="checkbox" id="theme-switch" class="theme-switch">
+        <label for="theme-switch" class="theme-slider">
+          <i class="fas fa-sun"></i>
+          <i class="fas fa-moon"></i>
+        </label>
+      </div>
+    </header>
 
-  <section id="file-list">
-    <h2>Fichiers disponibles :</h2>
-    <ul id="files"></ul>
-  </section>
+    <main>
+      <section id="upload-section" class="card">
+        <h2><i class="fas fa-cloud-upload-alt"></i> Importer des fichiers</h2>
+        <div id="drop-area">
+          <form id="upload-form" enctype="multipart/form-data">
+            <input type="file" id="file-input" name="files" multiple hidden>
+            <label for="file-input" class="file-input-label">
+              <i class="fas fa-file-circle-plus"></i>
+              <span>Cliquez pour choisir des fichiers<br>ou glissez-les ici</span>
+            </label>
+          </form>
+          <div id="upload-progress" class="hidden">
+            <div class="progress-bar">
+              <div class="progress-fill"></div>
+            </div>
+            <div class="progress-text">En cours d'envoi...</div>
+          </div>
+        </div>
+        <div id="selected-files" class="hidden">
+          <h3>Fichiers sélectionnés</h3>
+          <ul id="selected-files-list"></ul>
+          <button id="upload-button" class="primary-button">
+            <i class="fas fa-upload"></i> Envoyer
+          </button>
+        </div>
+      </section>
 
-  <section id="upload-section">
-    <h2>Envoyer des fichiers :</h2>
-    <form id="upload-form" enctype="multipart/form-data">
-      <input type="file" name="files" multiple>
-      <button type="submit">Envoyer</button>
-    </form>
-  </section>
+      <section id="file-list-section" class="card">
+        <div class="section-header">
+          <h2><i class="fas fa-folder-open"></i> Fichiers disponibles</h2>
+          <div class="file-controls">
+            <input type="text" id="search-files" placeholder="Rechercher...">
+            <select id="sort-files">
+              <option value="name-asc">Nom (A-Z)</option>
+              <option value="name-desc">Nom (Z-A)</option>
+              <option value="date-desc">Plus récent</option>
+              <option value="date-asc">Plus ancien</option>
+              <option value="size-desc">Taille (↓)</option>
+              <option value="size-asc">Taille (↑)</option>
+            </select>
+          </div>
+        </div>
+        <div id="files-container">
+          <ul id="files"></ul>
+          <div id="empty-state" class="hidden">
+            <i class="fas fa-inbox fa-3x"></i>
+            <p>Aucun fichier partagé pour le moment</p>
+          </div>
+          <div id="loading-files">
+            <div class="spinner"></div>
+            <p>Chargement des fichiers...</p>
+          </div>
+        </div>
+      </section>
+    </main>
 
-  <footer>
-    <p>Partagez vos fichiers facilement et en toute sécurité !</p>
-  </footer>
+    <div id="notification" class="notification hidden">
+      <div class="notification-content">
+        <i class="notification-icon"></i>
+        <span class="notification-message"></span>
+      </div>
+      <button class="notification-close"><i class="fas fa-times"></i></button>
+    </div>
+
+    <footer>
+      <p>jeTePartage &copy; <span id="current-year"></span> - Partage de fichiers rapide et simple</p>
+    </footer>
+  </div>
+
+  <div id="file-details-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Détails du fichier</h3>
+        <button class="close-modal"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="file-preview"></div>
+        <div class="file-info"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="download-file primary-button"><i class="fas fa-download"></i> Télécharger</button>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
 </html>
-
